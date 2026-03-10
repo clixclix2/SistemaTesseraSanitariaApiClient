@@ -53,6 +53,7 @@ class SistemaTesseraSanitariaApiClient
 			'dataDocumento' => $datiDocumento['dataDocumento'],
 			'dispositivo' => $datiDocumento['dispositivo'] ?? NULL,
 			'dataPagamento' => $datiDocumento['dataPagamento'] ?? NULL,
+			'pagamentoTracciato' => $datiDocumento['pagamentoTracciato'] ?? NULL,
 			'codiceFiscaleCittadino' => $datiDocumento['codiceFiscaleCittadino'],
 			'flagOpposizione' => $datiDocumento['flagOpposizione'] ?? NULL,
 			'vociSpesa' => $vociSpesa,
