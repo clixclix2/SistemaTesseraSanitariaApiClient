@@ -40,7 +40,7 @@ class SistemaTesseraSanitariaApiClient
 	 * Invia un documento di spesa al STS
 	 * PEr i valori dei campi, vedere la documentazione: https://www.sistema-ts-api.it/documentazione/
 	 * @param string $partitaIvaErogatore La partita iva di un soggetto già censito nell'anagrafica Erogatori
-	 * @param array $datiDocumento Campi: tipoDocumento, numeroDocumento, dataDocumento, dispositivo, dataPagamento, codiceFiscaleCittadino, flagOpposizione
+	 * @param array $datiDocumento Campi: tipoDocumento, numeroDocumento, dataDocumento, dispositivo, dataPagamento, pagamentoTracciato, codiceFiscaleCittadino, flagOpposizione
 	 * @param array[] $vociSpesa Array di array: Campi: tipoSpesa, importo, aliquotaIVA, naturaIVA
 	 * @return null|array dati del documento inviato
 	 */
@@ -80,6 +80,7 @@ class SistemaTesseraSanitariaApiClient
 			'dataDocumento' => $datiDocumento['dataDocumento'],
 			'dispositivo' => $datiDocumento['dispositivo'] ?? NULL,
 			'dataPagamento' => $datiDocumento['dataPagamento'] ?? NULL,
+			'pagamentoTracciato' => $datiDocumento['pagamentoTracciato'] ?? NULL,
 			'codiceFiscaleCittadino' => $datiDocumento['codiceFiscaleCittadino'],
 			'flagOpposizione' => $datiDocumento['flagOpposizione'] ?? NULL,
 		);
