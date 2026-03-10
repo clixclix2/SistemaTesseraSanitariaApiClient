@@ -5,8 +5,8 @@ namespace Itala;
  * Libreria Client PHP per utilizzare il servizio Sistema Tessera Sanitaria API v.1 - https://www.sistema-ts-api.it
  * Guida: https://www.sistema-ts-api.it/documentazione/
  * @author Itala Tecnologia Informatica S.r.l. - www.itala.it
- * @version 1.0
- * @since 2026-01-13
+ * @version 1.0.1
+ * @since 2026-03-10
  */
 class SistemaTesseraSanitariaApiClient
 {
@@ -16,12 +16,12 @@ class SistemaTesseraSanitariaApiClient
 	 * @param string $password
 	 * @param string $authToken
 	 * @param bool $testMode
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	function __construct($username = NULL, $password = NULL, $authToken = NULL, $testMode = false)
 	{
 		if ($username === NULL && $password === NULL && $authToken === NULL) {
-			throw new Exception('Either username and password, or authToken must be provided.');
+			throw new \Exception('Either username and password, or authToken must be provided.');
 		}
 		
 		$this->username = $username;
@@ -222,7 +222,7 @@ class SistemaTesseraSanitariaApiClient
 		
 		$httpHeaders = [];
 		
-		if ($this->authToken && (!$this->authExpires || $this->authExpires > (new DateTime())->add(new DateInterval('PT5M'))->format('Y-m-d H:i:s'))) {
+		if ($this->authToken && (!$this->authExpires || $this->authExpires > (new \DateTime())->add(new \DateInterval('PT5M'))->format('Y-m-d H:i:s'))) {
 			// token valido
 			$httpHeaders[] = 'Authorization: Bearer ' . $this->authToken;
 		} else {
