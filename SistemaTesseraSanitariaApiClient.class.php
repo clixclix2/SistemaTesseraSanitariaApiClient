@@ -5,8 +5,8 @@ namespace Itala;
  * Libreria Client PHP per utilizzare il servizio Sistema Tessera Sanitaria API v.1 - https://www.sistema-ts-api.it
  * Guida: https://www.sistema-ts-api.it/documentazione/
  * @author Itala Tecnologia Informatica S.r.l. - www.itala.it
- * @version 1.0.1
- * @since 2026-03-10
+ * @version 1.0.2
+ * @since 2026-03-23
  */
 class SistemaTesseraSanitariaApiClient
 {
@@ -38,7 +38,7 @@ class SistemaTesseraSanitariaApiClient
 	
 	/**
 	 * Invia un documento di spesa al STS
-	 * PEr i valori dei campi, vedere la documentazione: https://www.sistema-ts-api.it/documentazione/
+	 * Per i valori dei campi, vedere la documentazione: https://www.sistema-ts-api.it/documentazione/
 	 * @param string $partitaIvaErogatore La partita iva di un soggetto già censito nell'anagrafica Erogatori
 	 * @param array $datiDocumento Campi: tipoDocumento, numeroDocumento, dataDocumento, dispositivo, dataPagamento, pagamentoTracciato, codiceFiscaleCittadino, flagOpposizione
 	 * @param array[] $vociSpesa Array di array: Campi: tipoSpesa, importo, aliquotaIVA, naturaIVA
@@ -57,6 +57,29 @@ class SistemaTesseraSanitariaApiClient
 			'codiceFiscaleCittadino' => $datiDocumento['codiceFiscaleCittadino'],
 			'flagOpposizione' => $datiDocumento['flagOpposizione'] ?? NULL,
 			'vociSpesa' => $vociSpesa,
+		);
+		$ret = $this->call('post', '/documenti-spesa', $data);
+		if ($ret) {
+			return json_decode($ret, true);
+		}
+		return NULL;
+	}
+	
+	/**
+	 * Storna un documento di spesa inviato al STS
+	 * @param string $partitaIvaErogatore La partita iva di un soggetto già censito nell'anagrafica Erogatori
+	 * @param array $datiDocumento Campi: tipoDocumento, numeroDocumento, dataDocumento, dispositivo
+	 * @return null|array dati della trasmissione
+	 */
+	function stornaDocumentoSpesa($partitaIvaErogatore, $datiDocumento)
+	{
+		$data = array(
+			'operazione' => 'CAN',
+			'partitaIvaErogatore' => $partitaIvaErogatore,
+			'tipoDocumento' => $datiDocumento['tipoDocumento'],
+			'numeroDocumento' => $datiDocumento['numeroDocumento'],
+			'dataDocumento' => $datiDocumento['dataDocumento'],
+			'dispositivo' => $datiDocumento['dispositivo'] ?? NULL,
 		);
 		$ret = $this->call('post', '/documenti-spesa', $data);
 		if ($ret) {
@@ -121,7 +144,7 @@ class SistemaTesseraSanitariaApiClient
 	
 	/**
 	 * Aggiunge un soggetto erogatore alla propria anagrafica
-	 * @param array $arrCampi Campi: denominazione, partitaIva, codiceFiscale, usernameSts, passwordSts, pincode, descrizione
+	 * @param array $arrCampi Campi: denominazione, partitaIva, codiceFiscale, usernameSts, passwordSts, pincodeSts, descrizione
 	 * @return null|array dati del soggetto
 	 */
 	function inserisciErogatore($arrCampi)
@@ -137,7 +160,7 @@ class SistemaTesseraSanitariaApiClient
 	/**
 	 * Aggiorna un erogatore
 	 * @param int $idErogatore
-	 * @param array $arrCampi Campi: denominazione, partitaIva, codiceFiscale, usernameSts, passwordSts, pincode, descrizione
+	 * @param array $arrCampi Campi: denominazione, partitaIva, codiceFiscale, usernameSts, passwordSts, pincodeSts, descrizione
 	 * @return null|array dati del soggetto
 	 */
 	function aggiornaErogatore($idErogatore, $arrCampi)
